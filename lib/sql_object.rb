@@ -3,6 +3,7 @@ require_relative 'searchable'
 require 'active_support/inflector'
 
 class SQLObject
+
   #################
   # class methods #
   #################
@@ -14,6 +15,7 @@ class SQLObject
       FROM
         #{self.table_name}
     SQL
+
     self.parse_all(rows)
   end
 
@@ -43,6 +45,7 @@ class SQLObject
 
   def self.find(id)
     rows = DBConnection.execute(<<-SQL, id)
+
       SELECT
         *
       FROM
@@ -54,6 +57,38 @@ class SQLObject
     SQL
 
     self.parse_all(rows)[0]
+  end
+
+  def self.first(n = 1)
+    result = DBConnection.execute(<<-SQL)
+
+      SELECT
+        *
+      FROM
+        #{self.table_name}
+      ORDER BY
+        #{self.table_name}.id
+    SQL
+
+    return self.parse_all(result)[0] if n == 1
+
+    self.parse_all(result)[0..(n - 1)]
+  end
+
+  def self.last(n = 1)
+    result = DBConnection.execute(<<-SQL)
+
+      SELECT
+        *
+      FROM
+        #{self.table_name}
+      ORDER BY
+        #{self.table_name}.id
+    SQL
+
+    return self.parse_all(result)[-1] if n == 1
+
+    self.parse_all(result)[-n..-1]
   end
 
   def self.parse_all(results)
@@ -127,5 +162,4 @@ class SQLObject
         #{self.class.table_name}.id = ?
     SQL
   end
-
 end
