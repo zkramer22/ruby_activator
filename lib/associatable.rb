@@ -122,9 +122,8 @@ module Associatable
       source_pk = source_options.primary_key
       source_fk = source_options.foreign_key
 
-
       debugger
-      key_val = self.send(through_fk)
+      key_val = self.send(through_pk)
       results = DBConnection.execute(<<-SQL, key_val)
         SELECT
           #{source_table}.*
@@ -133,9 +132,9 @@ module Associatable
         JOIN
           #{source_table}
         ON
-          #{through_table}.#{source_fk} = #{source_table}.#{source_pk}
+          #{through_table}.#{source_pk} = #{source_table}.#{source_fk}
         WHERE
-          #{through_table}.#{through_pk} = ?
+          #{through_table}.#{through_fk} = ?
       SQL
 
       source_options.model_class.parse_all(results)
