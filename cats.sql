@@ -35,8 +35,8 @@ VALUES
   (1, "Devon", "Watts", 1),
   (2, "Matt", "Rubens", 1),
   (3, "Ned", "Ruggeri", 2),
-  (4, "Homeless", "Human", NULL);
-  (5, "Catless", "Homie", 2)
+  (4, "Homeless", "Human", NULL),
+  (5, "Catless", "Homie", 2);
 
 INSERT INTO
   cats (id, name, owner_id)

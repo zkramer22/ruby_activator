@@ -75,9 +75,9 @@ module Associatable
       source_pk = source_options.primary_key
       source_fk = source_options.foreign_key
 
-      debugger
+
       key_val = self.send(through_fk)
-      debugger
+
       results = DBConnection.execute(<<-SQL, key_val)
         SELECT
           #{source_table}.*
@@ -122,7 +122,7 @@ module Associatable
       source_pk = source_options.primary_key
       source_fk = source_options.foreign_key
 
-      debugger
+
       key_val = self.send(through_pk)
       results = DBConnection.execute(<<-SQL, key_val)
         SELECT
